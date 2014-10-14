@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization.Formatters;
 
 namespace Romans
 {
@@ -6,11 +7,11 @@ namespace Romans
     {
         private static void Main(string[] args)
         {
-            Console.WriteLine(ToRoman(234));
-            Console.WriteLine(ToArabic("X"));
+            //Console.WriteLine(ToRoman(234));
+            Console.WriteLine(ToArabic("IV"));
+            Console.WriteLine("************************");
             Console.Read();
         }
-
         public static string ToRoman(int number)
         {
             String[] ones = {"", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX"};
@@ -38,108 +39,81 @@ namespace Romans
 
         public static int ToArabic(string roman)
         {
-            int arab = 0;
-            int i = 1;
-            int v = 6;
-            int x = 10;
-            int l = 50;
-            int c = 100;
-            int d = 500;
+            var arab = 0;
+            const int i = 1;
+            const int v = 5;
+            const int x = 10;
+            const int l = 50;
+            const int c = 100;
+            const int d = 500;
 
-            for (int j = 0; j <= roman.Length; j++)
+            for (var j = 0; j < roman.Length; j++)
             {
 
-                if (roman[j]== 'I' || roman[j]== 'i')
+
+                if (roman[j] == 'I')
                 {
-                    if (roman[j+1] == 'V' || roman[j+1] == 'v')
+                    if (j+1<roman.Length)
                     {
-                        arab += 4;
-                    }
-                    else if (roman[j+1] == 'X' || roman[j+1] == 'x')
-                    {
-                        arab += 9;
-                    }
-                    else
-                    {
-                        arab += i;   
-                    }
-                }
-                if (roman[j] == 'V' || roman[j] == 'v')
-                {
-                    if (j - 1 != 0)
-                    {
-                        if (roman[j - 1] == 'I' || roman[j - 1] == 'i')
+                        if (roman[j+1]=='V')
                         {
-                            arab += 0;
-                        }       
+                            arab += 4;
+                        }
+                        else if (roman[j + 1] == 'X')
+                        {
+                            arab += 9;
+                        }
                     }
                     else
                     {
-                        arab += v;   
+                        arab += i;                        
                     }
                 }
-                if (roman[j] == 'X' || roman[j] == 'x')
+                else if (roman[j] == 'V')
                 {
-                    if (j - 1 != 0)
+                    if (j-1>0)
                     {
-                        if (roman[j - 1] == 'I' || roman[j - 1] == 'i')
+                        if (roman[j - 1] == 'I')
                         {
                             arab += 0;
                         }    
                     }
-                    else if (roman[j + 1] == 'L' || roman[j+1] == 'l')
+                    else
                     {
-                        arab += 40;
+                        arab += v;
+                        
                     }
-                    else if (roman[j + 1] == 'C' || roman[j + 1] == 'c')
+                }
+                else if (roman[j] == 'X')
+                {
+                    if (j-1>0)
                     {
-                        arab += 90;
+                        if (roman[j - 1] == 'I')
+                        {
+                            arab += 0;
+                        }   
                     }
                     else
                     {
-                        arab += x;   
+                        arab += x;         
                     }
                 }
-                if (roman[j] == 'L' || roman[j] == 'l')
+                else if (roman[j] == 'L')
                 {
                     arab += l;
                 }
-                if (roman[j] == 'C' || roman[j] == 'c')
-                {
 
-                    if (j - 1 != 0)
-                    {
-                        if (roman[j - 1] == 'X' || roman[j - 1] == 'x')
-                        {
-                            arab += 0;
-                        }   
-                    }
-                    else if(roman[j+1] == 'D' || roman[j+1] == 'd')
-                    {
-                        arab += 400;
-                    }
-                    else
-                    {
-                        arab += c;                        
-                    }
-                }
-                if (roman[j] == 'D' || roman[j] == 'd')
+                else if (roman[j] == 'C')
                 {
-
-                    if (j - 1 != 0)
-                    {
-                        if (roman[j - 1] == 'C' || roman[j - 1] == 'c')
-                        {
-                            arab += 0;
-                        }   
-                    }
-                    else
-                    {
-                        arab += d;         
-                    }
+                    arab += c;
                 }
+
+                else if (roman[j] == 'D')
+                {
+                    arab += d;
+                }
+                
             }
-
             return arab;
         }
     }
